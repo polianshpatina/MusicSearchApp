@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../Services/data.service";
 import { ActivatedRoute } from "@angular/router";
-import { Track } from "../../models/Track";
+
 @Component({
   selector: "app-tracks",
   templateUrl: "./tracks.component.html",
@@ -9,7 +9,7 @@ import { Track } from "../../models/Track";
 })
 export class TracksComponent implements OnInit {
   id: string;
-  track: Track[];
+  track: Object[];
 
   constructor(
     private _dataService: DataService,

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../Services/data.service";
 import { FormControl } from "@angular/forms";
-import { Track } from "src/app/models/Track";
 
 @Component({
   selector: "app-search",
@@ -10,7 +9,7 @@ import { Track } from "src/app/models/Track";
 })
 export class SearchComponent implements OnInit {
   searchStr: string;
-  results: Track[];
+  results: Object[];
   query: FormControl = new FormControl();
 
   constructor(private _dataService: DataService) {}

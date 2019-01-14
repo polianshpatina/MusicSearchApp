@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../Services/data.service";
 import { ActivatedRoute } from "@angular/router";
-import { Album } from "../../models/Album";
 
 @Component({
   selector: "app-albums",
@@ -10,7 +9,7 @@ import { Album } from "../../models/Album";
 })
 export class AlbumsComponent implements OnInit {
   id: string;
-  album: Album[];
+  album: Object[];
   constructor(
     private _dataService: DataService,
     private _route: ActivatedRoute

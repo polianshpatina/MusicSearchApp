@@ -1,22 +1,30 @@
 <div class="custom" *ngIf="album">
-  <div class="content" *ngIf="album.artists.length > 0">
-    <h4 class="header">Album Name: {{ album.name }}</h4>
-    <h4 class="header">Artist Name: {{album.artists[0].name}}</h4>
-    <h4 class="header">Album Details:</h4>
+  <div *ngIf="album.artists.length > 0">
+    <h5>Artist Name: {{ album.artists[0].name }}</h5>
+    <h5>Album Name: {{ album.name }}</h5>
+    <h5>Album Details:</h5>
     <ul>
-      <li class="item">Release Date: {{album.release_date}}</li>
-      <li class="item">Label: {{album.label}}</li>
-      <li class="item">Popularity: {{album.popularity}}</li>
-      <a class="ui primary button" target="_blank" href="{{album.external_urls.spotify}}">View on Spotify</a>
+      <li>Release Date: {{ album.release_date }}</li>
+      <li>Label: {{ album.label }}</li>
+      <li>Popularity: {{ album.popularity }}</li>
+      <a
+        class="ui primary button"
+        target="_blank"
+        href="{{ album.external_urls.spotify }}"
+        >View Album On Spotify</a
+      >
     </ul>
   </div>
 
   <div class="image" *ngIf="album.images.length > 0">
-    <img class="image" style="height: 300px; width: 300px" src="{{album.images[0].url}}">
+    <img
+      class="image"
+      style="height: 300px; width: 300px"
+      src="{{ album.images[0].url }}"
+    />
   </div>
 
-
-  <h3>Tracks</h3>
+  <h3>Tracks:</h3>
 
   <ol>
     <li *ngFor="let track of album.tracks.items">
@@ -24,7 +32,5 @@
     </li>
   </ol>
 
-
-  <input type="button" value="Back to Search" [routerLink]="['/']">
-
+  <input type="button" value="Back to Search" [routerLink]="['/']" />
 </div>

@@ -1,8 +1,8 @@
 <div class="custom" style="margin-left: 50px">
   <div>
     <h1>Search</h1>
-    <input type="text" [formControl]="query" placeholder="Search here...">
-    <!-- <input type="button" value="Search" id="mySearch" (click)="search()"> -->
+    <input type="text" [formControl]="query" placeholder="Search here..." />
+    <!-- <input type="button" value="Search" id="mySearch" (click)="search()" /> -->
     <h1>Results</h1>
   </div>
 
@@ -12,24 +12,29 @@
     </p>
 
     <div class="row" *ngIf="results.length">
-
       <div class="col-4 mb-3" *ngFor="let track of results">
         <div class="card h-100">
-          <img class="card-img-top" src="{{ track.album.images[0].url }}" alt="{{track.album.name}} cover art">
+          <img
+            class="card-img-top"
+            src="{{ track.album.images[0].url }}"
+            alt="{{ track.album.name }} cover art"
+          />
           <div class="card-body">
             <h6 class="card-title">
-              <a [routerLink]="['/artists', track.artists[0].id]">{{track.artists[0].name}}</a>
+              <a [routerLink]="['/artists', track.artists[0].id]">{{
+                track.artists[0].name
+              }}</a>
             </h6>
             <p class="card-text">
-              <a [routerLink]="['/tracks', track.id]">{{track.name}}</a>
+              <a [routerLink]="['/tracks', track.id]">{{ track.name }}</a>
               <br />
-              <a [routerLink]="['/albums', track.album.id]">{{track.album.name}}</a>
+              <a [routerLink]="['/albums', track.album.id]">{{
+                track.album.name
+              }}</a>
             </p>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
 </div>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../Services/data.service";
 import { ActivatedRoute } from "@angular/router";
-import { Artist } from "../../models/Artist";
 
 @Component({
   selector: "app-artist",
@@ -10,7 +9,7 @@ import { Artist } from "../../models/Artist";
 })
 export class ArtistsComponent implements OnInit {
   id: string;
-  artist: Artist[];
+  artist: Object[];
 
   constructor(
     private _dataService: DataService,

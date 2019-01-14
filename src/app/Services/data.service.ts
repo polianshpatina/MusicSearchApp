@@ -15,10 +15,11 @@ export class DataService {
 
   constructor(private _http: Http) {}
 
+  //Metoda qe ben authentikimin ne spotify me dy parametrat "Client id" dhe "Client sercet" dhe ne response kthen nje token qe ja bashkangjisim cdo metodhe tjeter ne header
   getAuth() {
     let params = "grant_type=client_credentials";
-    let client_id = "2288b07fb3074887928d728bdad042c1"; // Your client id
-    let client_secret = "2d0bd10df24a438d87f829f5ba071eeb"; // Your secret
+    let client_id = "2288b07fb3074887928d728bdad042c1"; // Client id e gjeneruar nga spotify per nje projekt qe e kam hap me userin tim
+    let client_secret = "2d0bd10df24a438d87f829f5ba071eeb"; // Client sercet e gjeneruar nga spotify per nje projekt qe e kam hap me userin tim
     let encoded = btoa(client_id + ":" + client_secret);
     let headers = new Headers();
     headers.append("Authorization", "Basic " + encoded);
@@ -34,7 +35,7 @@ export class DataService {
       });
   }
 
-  // Get search results for a query
+  // Metoda qe kekroj ne spotify per nje track te caktuar
   searchMusic(query: string, type = "track", authToken: string) {
     let headers = new Headers();
     headers.append("Authorization", "Bearer " + authToken);
@@ -51,7 +52,7 @@ export class DataService {
       .map(res => res.json());
   }
 
-  // Get data about artist that has been chosen to view
+  // Metoda qe kerkon per artistin me ane te id qe marim pasi kemi bere kerkimin
   getArtist(id: string, authToken: string) {
     let headers = new Headers();
     headers.append("Authorization", "Bearer " + authToken);
@@ -63,7 +64,7 @@ export class DataService {
       .map(res => res.json());
   }
 
-  // Get Ablum selected
+  // Metoda qe kerkon per album me ane te id qe marim pasi kemi bere kerkimin
   getAlbum(id: string, authToken: string) {
     let headers = new Headers();
     headers.append("Authorization", "Bearer " + authToken);
@@ -75,7 +76,7 @@ export class DataService {
       .map(res => res.json());
   }
 
-  // Get Track's Information
+  // Metoda qe kerkon per kengen specifike me ane te id qe marim pasi kemi bere kerkimin
   getTrack(id: string, authToken: string) {
     let headers = new Headers();
     headers.append("Authorization", "Bearer " + authToken);
