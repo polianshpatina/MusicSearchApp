@@ -1,105 +1,89 @@
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { map } from 'rxjs/operators';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class DataService {
-
-//   private searchUrl: string;
-
-//   constructor(private http:HttpClient ) { }
-
-//   searchMusic(searchString:string, type='track'){
-//     this.searchUrl = "https://api.spotify.com/v1/search?query" + searchString + "&offset=0&limit=20&type=" + type + "market=US";
-//     return this.http.get(this.searchUrl)
-//     .pipe(map((response: any) => response.json()));
-//   }
-// }
-
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-//import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
-
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/debounceTime';
-// import 'rxjs/add/operator/distinctUntilChanged';
-
+import { Injectable } from "@angular/core";
+import { Http, Headers, RequestOptions, URLSearchParams } from "@angular/http";
+import { environment } from "../../environments/environment";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/distinctUntilChanged";
 
 @Injectable()
 export class DataService {
   private searchUrl: string;
   private artistUrl: string;
-  private albumsUrl: string;
   private albumUrl: string;
-  private clientId: string = environment.clientId;
-  private clientSecret: string = environment.clientSecret;
-  private body: any;
+  private trackUrl: string;
 
+  constructor(private _http: Http) {}
 
-  constructor(private _http: HttpClient) { }
+  getAuth() {
+    let params = "grant_type=client_credentials";
+    let client_id = "2288b07fb3074887928d728bdad042c1"; // Your client id
+    let client_secret = "2d0bd10df24a438d87f829f5ba071eeb"; // Your secret
+    let encoded = btoa(client_id + ":" + client_secret);
+    let headers = new Headers();
+    headers.append("Authorization", "Basic " + encoded);
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+    let proxy = "https://cors-anywhere.herokuapp.com/";
+    let uurl = "https://accounts.spotify.com/api/token";
 
-
-  // Get access token from Spotify to use API
-  getAuth = () => {
-
-    let headers = new HttpHeaders();
-    headers.append('Authorization', 'Basic ' + btoa(this.clientId + ":" + this.clientSecret));
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('grant_type', 'client_credentials');
-    let body = params.toString();
-
-    return this._http.post('https://accounts.spotify.com/api/token', body, { headers : headers })
-    .pipe(map((response: any) => response.json()));
-
+    return this._http
+      .post(proxy + uurl, params, { headers: headers })
+      .map(res => {
+        let data = res.json();
+        return data;
+      });
   }
 
   // Get search results for a query
-  searchMusic(query: string, type = 'artist', authToken: string) {
-    let headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + authToken);
+  searchMusic(query: string, type = "track", authToken: string) {
+    let headers = new Headers();
+    headers.append("Authorization", "Bearer " + authToken);
 
-    this.searchUrl = 'https://api.spotify.com/v1/search?query=' + query + '&offset=0&limit=20&type=' + type + '&market=US';
+    this.searchUrl =
+      "https://api.spotify.com/v1/search?q=" +
+      query +
+      "&offset=0&limit=20&type=" +
+      type +
+      "&market=US";
 
-    return this._http.get(this.searchUrl, { headers: headers })
-     .pipe(map((response: any) => response.json()));
+    return this._http
+      .get(this.searchUrl, { headers: headers })
+      .map(res => res.json());
   }
 
   // Get data about artist that has been chosen to view
   getArtist(id: string, authToken: string) {
-    let headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + authToken);
+    let headers = new Headers();
+    headers.append("Authorization", "Bearer " + authToken);
 
-    this.artistUrl = 'https://api.spotify.com/v1/artists/' + id;
+    this.artistUrl = "https://api.spotify.com/v1/artists/" + id;
 
-    return this._http.get(this.artistUrl, { headers: headers })
-    .pipe(map((response: any) => response.json()));
+    return this._http
+      .get(this.artistUrl, { headers: headers })
+      .map(res => res.json());
   }
 
-  // Get the albums about the artist that has been chosen
-  getAlbums(id: string, authToken: string) {
-    let headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + authToken);
+  // Get Ablum selected
+  getAlbum(id: string, authToken: string) {
+    let headers = new Headers();
+    headers.append("Authorization", "Bearer " + authToken);
 
-    this.albumsUrl = 'https://api.spotify.com/v1/artists/' + id + '/albums?market=US&album_type=single';
+    this.albumUrl = "https://api.spotify.com/v1/albums/" + id;
 
-    return this._http.get(this.albumsUrl, { headers: headers })
-    .pipe(map((response: any) => response.json()));
+    return this._http
+      .get(this.albumUrl, { headers: headers })
+      .map(res => res.json());
   }
 
-  // Get Tracks in ablum selected
-   getAlbum(id: string, authToken: string) {
-    let headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + authToken);
+  // Get Track's Information
+  getTrack(id: string, authToken: string) {
+    let headers = new Headers();
+    headers.append("Authorization", "Bearer " + authToken);
 
-    this.albumUrl = 'https://api.spotify.com/v1/albums/' + id;
+    this.trackUrl = "https://api.spotify.com/v1/tracks/" + id;
 
-    return this._http.get(this.albumUrl, { headers: headers })
-    .pipe(map((response: any) => response.json()));
+    return this._http
+      .get(this.trackUrl, { headers: headers })
+      .map(res => res.json());
   }
 }

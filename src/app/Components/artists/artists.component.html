@@ -1,3 +1,18 @@
-<p>
-  artists works!
-</p>
+<div class="custom" *ngIf="artist">
+  <div *ngIf="artist.images.length > 0">
+    <img src="{{artist.images[0].url}}" alt="{{artist.name}}">
+  </div>
+
+  <div class="content">
+    <h4 class="ui centered block medium header">{{artist.name}}</h4>
+    <div class="ui blue label">Followers: {{artist.followers.total}}</div>
+    <div class="ui green label">Popularity: {{artist.popularity}}</div>
+    <div class="ui label" *ngFor="let genre of artist.genres">{{genre}}</div>
+
+
+  </div>
+
+
+  <input type="button" value="Back to Search" [routerLink]="['/']">
+
+</div>

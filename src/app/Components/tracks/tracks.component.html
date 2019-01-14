@@ -1,3 +1,16 @@
-<p>
-  tracks works!
-</p>
+<div class="custom">
+  <div *ngIf="track">
+    <h1>{{ track.name }}</h1>
+
+    <p>
+      <img src="{{ track.album.images[1].url }}" alt="{{ track.album.name }}">
+    </p>
+
+    <p>
+      <audio controls src="{{ track.preview_url }}"></audio>
+    </p>
+  </div>
+
+  <input type="button" value="Back to Search" [routerLink]="['/']">
+
+</div>

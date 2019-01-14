@@ -1,53 +1,35 @@
-<!-- <div>
-  <h1>Search</h1>
-  <form>  
-    <div>
-      <input type="text" name="searchString" placeholder="Search here...">
-      <input type="button" value="Search" id="mySearch">
-    </div>
-  </form>
-</div>
-
-(keyup)="search()" -->
-
-<div class="main">
-  <h2 class="center aligned header">Looking For Music?</h2>
-  <div class="sub header">Enter an artist in the search box below to get all list of all theirs songs and albums</div>
-  <div class="ui form">
-    <div class="ui icon fluid input">
-      <input type="text" [formControl]="query" placeholder="Search for Songs...">
-      <i class="search icon"></i>
-    </div>
+<div class="custom" style="margin-left: 50px">
+  <div>
+    <h1>Search</h1>
+    <input type="text" [formControl]="query" placeholder="Search here...">
+    <!-- <input type="button" value="Search" id="mySearch" (click)="search()"> -->
+    <h1>Results</h1>
   </div>
-</div>
 
-<div class="ui hidden divider"></div>
+  <div *ngIf="results" style="margin-left: 50px">
+    <p *ngIf="!results.length">
+      No results were found for the query '{{ query }}'.
+    </p>
 
-<div class="result" *ngIf="results">
-  <div class="ui scheme raised segments" *ngFor="let res of results">
-    <div class="ui segment">
-      <div class="ui items" *ngIf="res.images.length > 0">
-        <div class="item">
-          <div class="ui small image">
-            <img src="{{res.images[0].url}}" alt="">
-          </div>
+    <div class="row" *ngIf="results.length">
 
-          <div class="content">
-            <h3><a href="/artist/{{res.id}}">{{res.name}}</a></h3>
-            <div class="ui labels">
-              <div class="ui blue label">Followers: {{res.followers.total}}</div>
-              <div class="ui green label">Popularity: {{res.popularity}}</div>
-            </div>
-            <div class="ui horizontal list" *ngFor="let genre of res.genres">
-              <div class="item">
-                <div class="ui labels">
-                  <div class="ui label">{{genre}}</div>
-                </div>
-              </div>
-            </div>
+      <div class="col-4 mb-3" *ngFor="let track of results">
+        <div class="card h-100">
+          <img class="card-img-top" src="{{ track.album.images[0].url }}" alt="{{track.album.name}} cover art">
+          <div class="card-body">
+            <h6 class="card-title">
+              <a [routerLink]="['/artists', track.artists[0].id]">{{track.artists[0].name}}</a>
+            </h6>
+            <p class="card-text">
+              <a [routerLink]="['/tracks', track.id]">{{track.name}}</a>
+              <br />
+              <a [routerLink]="['/albums', track.album.id]">{{track.album.name}}</a>
+            </p>
           </div>
         </div>
       </div>
+
     </div>
   </div>
+
 </div>

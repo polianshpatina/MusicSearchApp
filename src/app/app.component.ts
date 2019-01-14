@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
-import { HttpClientModule } from  '@angular/common/http';
+import { Component } from "@angular/core";
+import { HttpClientModule } from "@angular/common/http";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
   providers: [HttpClientModule]
 })
 export class AppComponent {
-  title = 'MusicSearchApp';
+  title = "MusicSearchApp";
 }
-  

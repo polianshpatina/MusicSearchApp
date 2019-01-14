@@ -1,35 +1,49 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../Services/data.service";
 import { FormControl } from "@angular/forms";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime } from "rxjs/operators";
-import { Artist } from "../../models/Artist";
+import { Track } from "src/app/models/Track";
 
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
-  styleUrls: ["./search.component.scss"],
-  providers: [DataService]
+  styleUrls: ["./search.component.scss"]
 })
 export class SearchComponent implements OnInit {
-  searchString: string;
+  searchStr: string;
+  results: Track[];
+  query: FormControl = new FormControl();
 
-  results: Artist[];
-
-  query = new FormControl();
-
-  constructor(private dataService: DataService) {}
+  constructor(private _dataService: DataService) {}
 
   ngOnInit() {
-    this.query.valueChanges.pipe(debounceTime(400)).subscribe(query =>
-      this.dataService.getAuth().subscribe(res =>
-        this.dataService
-          .searchMusic(query, "artist", res.access_token)
-          .subscribe(res => {
-            console.log(res.artists.items);
-            this.results = res.artists.items;
-          })
-      )
-    );
+    this.query.valueChanges
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .subscribe(query =>
+        this._dataService.getAuth().subscribe(res =>
+          this._dataService
+            .searchMusic(query, "track", res.access_token)
+            .subscribe(res => {
+              console.log(res.tracks.items);
+              this.results = res.tracks.items;
+            })
+        )
+      );
   }
+
+  // search() {
+  //   this.query.valueChanges
+  //     .debounceTime(400)
+  //     .distinctUntilChanged()
+  //     .subscribe(query =>
+  //       this._dataService.getAuth().subscribe(res =>
+  //         this._dataService
+  //           .searchMusic(query, "track", res.access_token)
+  //           .subscribe(res => {
+  //             console.log(res.tracks.items);
+  //             this.results = res.tracks.items;
+  //           })
+  //       )
+  //     );
+  // }
 }
